@@ -48,3 +48,7 @@ group :development do
   gem "rubocop-rails", "~> 2.25"
   gem "rubocop-rspec", "~> 3.0"
 end
+
+group :test do
+  gem "shoulda-matchers", "~> 6.2"
+end
