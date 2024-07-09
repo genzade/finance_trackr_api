@@ -44,6 +44,7 @@ group :development, :test do
 end
 
 group :development do
+  gem "bullet", "~> 7.1"
   gem "rubocop", "~> 1.64"
   gem "rubocop-rails", "~> 2.25"
   gem "rubocop-rspec", "~> 3.0"
