@@ -1,0 +1,12 @@
+---
+require:
+  - rubocop-rspec
+RSpec/DescribedClass:
+  Enabled: true
+  EnforcedStyle: explicit
+RSpec/ExampleLength:
+  Enabled: false
+RSpec/ImplicitSubject:
+  Enabled: false
+RSpec/NestedGroups:
+  Enabled: false

@@ -1,0 +1,9 @@
+---
+require:
+  - rubocop-rails
+Rails/IndexBy:
+  Enabled: true
+Rails/IndexWith:
+  Enabled: true
+Rails/RedundantPresenceValidationOnBelongsTo:
+  Enabled: false
