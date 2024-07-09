@@ -1,0 +1,17 @@
+---
+version: "3.7"
+services:
+  db:
+    environment:
+      POSTGRES_HOST_AUTH_METHOD: trust
+      # See: https://github.com/docker-library/postgres/pull/658. Alternatively,
+      # DATABASE_HOST: "db"
+      # POSTGRES_USER: "postgres"
+    image: postgres:15
+    ports:
+      - "5432:5432"
+    restart: always
+    volumes:
+      - db_data:/var/lib/postgresql/data
+volumes:
+  db_data:
