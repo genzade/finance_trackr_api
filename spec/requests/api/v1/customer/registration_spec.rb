@@ -21,7 +21,7 @@ RSpec.describe "Api::V1::Customer::Registration", type: :request do
           )
         end.to change(Customer, :count).by(1)
         expect(response).to have_http_status(:created)
-        expect(JSON.parse(response.body)).to eq(
+        expect(response.parsed_body).to eq(
           { "message" => "Customer registered successfully" }
         )
       end
@@ -37,7 +37,11 @@ RSpec.describe "Api::V1::Customer::Registration", type: :request do
           "/api/v1/customer/registration",
           params: customer_params
         )
+
         expect(response).to have_http_status(:unprocessable_entity)
+        expect(response.parsed_body).to eq(
+          { "errors" => ["Email can't be blank", "Password can't be blank"] }
+        )
       end
     end
   end
