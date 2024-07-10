@@ -11,4 +11,8 @@ class Income < ApplicationRecord
 
   enum source: INCOME_SOURCE_OPTIONS
 
+  def self.valid_sources
+    INCOME_SOURCE_OPTIONS.values
+  end
+
 end
