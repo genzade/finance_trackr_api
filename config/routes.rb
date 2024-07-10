@@ -9,6 +9,7 @@ Rails.application.routes.draw do
 
       resources :customers, only: [] do
         resource :statement, only: :show, module: :customers
+        resource :income, only: :create, module: :customers
       end
     end
   end

@@ -3,3 +3,5 @@ en:
   customer:
     registration:
       success: 'Customer registered successfully'
+    income:
+      created: 'Income created successfully'
