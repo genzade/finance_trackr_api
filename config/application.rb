@@ -57,5 +57,7 @@ module FinanceTrackrApi
       g.view_specs false
     end
 
+    config.active_job.queue_adapter = :sidekiq
+
   end
 end
