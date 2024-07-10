@@ -6,6 +6,10 @@ Rails.application.routes.draw do
       namespace :customer do
         post :registration, to: "registration#create"
       end
+
+      resources :customers, only: [] do
+        resource :statement, only: :show, module: :customers
+      end
     end
   end
 
