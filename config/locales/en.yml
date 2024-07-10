@@ -5,3 +5,5 @@ en:
       success: 'Customer registered successfully'
     income:
       created: 'Income created successfully'
+    expenditure:
+      created: 'Expenditure created successfully'
