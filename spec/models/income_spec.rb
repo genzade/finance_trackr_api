@@ -3,6 +3,8 @@
 require "rails_helper"
 
 RSpec.describe Income, type: :model do
+  subject { build(:income) }
+
   it { is_expected.to belong_to(:customer) }
 
   it do

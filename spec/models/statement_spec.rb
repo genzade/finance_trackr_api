@@ -3,6 +3,8 @@
 require "rails_helper"
 
 RSpec.describe Statement, type: :model do
+  subject { build(:statement) }
+
   it { is_expected.to belong_to(:customer) }
 
   it do
