@@ -13,13 +13,28 @@ RSpec.describe "Api::V1::Customer::Registration", type: :request do
         }
       end
 
-      it "customer can register" do
+      it "customer can register, a new statement record", :sidekiq_inline do
         expect do
           post(
             "/api/v1/customer/registration",
             params: customer_params
           )
-        end.to change(Customer, :count).by(1)
+        end.to change(Customer, :count)
+          .by(1)
+          .and change(Statement, :all)
+          .from([])
+          .to(
+            a_collection_including(
+              an_object_having_attributes(
+                customer: an_object_having_attributes(
+                  email: "name@mail.com"
+                ),
+                ie_rating: "not_calculated",
+                disposable_income_amount: nil
+              )
+            )
+          )
+
         expect(response).to have_http_status(:created)
         expect(response.parsed_body).to eq(
           { "message" => "Customer registered successfully" }
@@ -32,7 +47,7 @@ RSpec.describe "Api::V1::Customer::Registration", type: :request do
         { email: "", password: "", password_confirmation: "" }
       end
 
-      it "returns 422 unprocessable entity" do
+      it "returns 422 unprocessable entity", :sidekiq_inline do
         post(
           "/api/v1/customer/registration",
           params: customer_params
