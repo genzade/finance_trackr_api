@@ -21,6 +21,16 @@ RSpec.describe Forms::CustomerRegistrationForm, type: :form do
           expect(form.errors).to be_empty
         end.to change(Customer, :count).from(0).to(1)
       end
+
+      it "enqueues a job create statement", :sidekiq_inline do
+        form = Forms::CustomerRegistrationForm.new(
+          email: "john@doe.com",
+          password: "123456",
+          password_confirmation: "123456"
+        )
+
+        expect { form.save }.to change(Statement, :count).from(0).to(1)
+      end
     end
 
     context "when the form is invalid" do

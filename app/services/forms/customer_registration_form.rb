@@ -13,13 +13,25 @@ module Forms
     def save
       return false unless valid?
 
-      Customer.create!(
+      customer.save
+
+      create_statement_job
+
+      true
+    end
+
+    private
+
+    def customer
+      @customer ||= Customer.new(
         email: email,
         password: password,
         password_confirmation: password_confirmation
       )
+    end
 
-      true
+    def create_statement_job
+      ::Customers::CreateStatementJob.perform_async(customer.id)
     end
 
   end
