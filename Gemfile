@@ -55,5 +55,6 @@ group :development do
 end
 
 group :test do
+  gem "rspec-sidekiq", "~> 5.0"
   gem "shoulda-matchers", "~> 6.2"
 end
