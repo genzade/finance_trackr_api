@@ -8,6 +8,8 @@ en:
     expenditure:
       created: 'Expenditure created successfully'
     statement:
+      show:
+        success: "Statement fetched successfully"
       errors:
         messages:
           already_has_statement: "already has a statement"
