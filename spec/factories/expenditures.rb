@@ -3,7 +3,7 @@
 FactoryBot.define do
   factory :expenditure do
     customer { nil }
-    amount { "9.99" }
-    category { "MyString" }
+    amount { 9.99 }
+    category { Expenditure.categories[:mortgage] }
   end
 end
