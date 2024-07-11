@@ -7,6 +7,7 @@ class Customer < ApplicationRecord
   with_options dependent: :destroy do
     has_many :incomes
     has_many :expenditures
+    has_one :statement
   end
 
 end
