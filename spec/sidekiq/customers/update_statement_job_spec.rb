@@ -29,7 +29,7 @@ RSpec.describe Customers::UpdateStatementJob, type: :job do
   it "calculates statement ie_rating for the customer", :sidekiq_inline do
     customer = create(:customer, :with_statement)
     ier_calculator_klass = Calculators::IeRatingCalculator
-    stubbed_ier_calculator = instance_double(ier_calculator_klass, call: "a")
+    stubbed_ier_calculator = instance_double(ier_calculator_klass, call: "not_calculated")
 
     allow(ier_calculator_klass).to receive(:new)
       .with(customer)

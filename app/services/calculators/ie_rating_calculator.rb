@@ -12,13 +12,13 @@ module Calculators
 
       case ratio
       when 0..0.1
-        Statement.ie_ratings[:rated_a]
+        Statement.ie_ratings[:rated_A]
       when 0.11..0.30
-        Statement.ie_ratings[:rated_b]
+        Statement.ie_ratings[:rated_B]
       when 0.31..0.50
-        Statement.ie_ratings[:rated_c]
+        Statement.ie_ratings[:rated_C]
       else
-        Statement.ie_ratings[:rated_d]
+        Statement.ie_ratings[:rated_D]
       end
     end
 

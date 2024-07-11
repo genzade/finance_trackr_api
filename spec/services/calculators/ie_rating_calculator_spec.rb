@@ -30,7 +30,7 @@ RSpec.describe Calculators::IeRatingCalculator, type: :service do
 
         calculator = Calculators::IeRatingCalculator.new(customer)
 
-        expect(calculator.call).to eq("a")
+        expect(calculator.call).to eq("rated_A")
       end
     end
 
@@ -41,7 +41,7 @@ RSpec.describe Calculators::IeRatingCalculator, type: :service do
 
         calculator = Calculators::IeRatingCalculator.new(customer)
 
-        expect(calculator.call).to eq("d")
+        expect(calculator.call).to eq("rated_D")
       end
 
       it "returns correct amount for ratio is 1:1" do
@@ -50,7 +50,7 @@ RSpec.describe Calculators::IeRatingCalculator, type: :service do
 
         calculator = Calculators::IeRatingCalculator.new(customer)
 
-        expect(calculator.call).to eq("d")
+        expect(calculator.call).to eq("rated_D")
       end
 
       it "returns correct amount for ratio is 1:2" do
@@ -59,7 +59,7 @@ RSpec.describe Calculators::IeRatingCalculator, type: :service do
 
         calculator = Calculators::IeRatingCalculator.new(customer)
 
-        expect(calculator.call).to eq("c")
+        expect(calculator.call).to eq("rated_C")
       end
 
       it "returns correct amount for ratio is 1:3" do
@@ -68,7 +68,7 @@ RSpec.describe Calculators::IeRatingCalculator, type: :service do
 
         calculator = Calculators::IeRatingCalculator.new(customer)
 
-        expect(calculator.call).to eq("c")
+        expect(calculator.call).to eq("rated_C")
       end
 
       it "returns correct amount for ratio is 1:4" do
@@ -77,7 +77,7 @@ RSpec.describe Calculators::IeRatingCalculator, type: :service do
 
         calculator = Calculators::IeRatingCalculator.new(customer)
 
-        expect(calculator.call).to eq("b")
+        expect(calculator.call).to eq("rated_B")
       end
 
       it "returns correct amount for ratio is 1:10" do
@@ -86,7 +86,7 @@ RSpec.describe Calculators::IeRatingCalculator, type: :service do
 
         calculator = Calculators::IeRatingCalculator.new(customer)
 
-        expect(calculator.call).to eq("a")
+        expect(calculator.call).to eq("rated_A")
       end
     end
   end

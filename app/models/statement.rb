@@ -4,10 +4,10 @@ class Statement < ApplicationRecord
 
   IE_RATING_OPTIONS = {
     not_calculated: "not_calculated",
-    rated_a: "a",
-    rated_b: "b",
-    rated_c: "c",
-    rated_d: "d"
+    rated_A: "rated_A",
+    rated_B: "rated_B",
+    rated_C: "rated_C",
+    rated_D: "rated_D"
   }.freeze
 
   belongs_to :customer
