@@ -7,3 +7,7 @@ en:
       created: 'Income created successfully'
     expenditure:
       created: 'Expenditure created successfully'
+    statement:
+      errors:
+        messages:
+          already_has_statement: "already has a statement"
