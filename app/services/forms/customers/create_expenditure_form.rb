@@ -28,19 +28,29 @@ module Forms
       def save
         return false unless valid?
 
-        Expenditure.create!(
-          customer: customer,
-          category: category,
-          amount: amount
-        )
+        expenditure.save
+
+        update_statement_job
 
         true
       end
 
       private
 
+      def expenditure
+        @expenditure ||= Expenditure.new(
+          customer: customer,
+          category: category,
+          amount: amount
+        )
+      end
+
       def customer
         @customer ||= Customer.find_by(id: customer_id)
+      end
+
+      def update_statement_job
+        ::Customers::UpdateStatementJob.perform_async(customer.id)
       end
 
     end

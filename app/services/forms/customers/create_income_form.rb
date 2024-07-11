@@ -28,19 +28,29 @@ module Forms
       def save
         return false unless valid?
 
-        Income.create!(
-          customer: customer,
-          source: source,
-          amount: amount
-        )
+        income.save
+
+        update_statement_job
 
         true
       end
 
       private
 
+      def income
+        @income ||= Income.new(
+          customer: customer,
+          source: source,
+          amount: amount
+        )
+      end
+
       def customer
         @customer ||= Customer.find_by(id: customer_id)
+      end
+
+      def update_statement_job
+        ::Customers::UpdateStatementJob.perform_async(customer.id)
       end
 
     end

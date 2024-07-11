@@ -36,6 +36,8 @@ RSpec.describe Forms::Customers::CreateIncomeForm, type: :form do
               amount: 2800.0
             )
           )
+          .and enqueue_sidekiq_job(Customers::UpdateStatementJob)
+          .with(customer.id)
       end
     end
 
