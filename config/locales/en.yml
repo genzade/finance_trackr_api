@@ -3,6 +3,9 @@ en:
   customer:
     registration:
       success: 'Customer registered successfully'
+    authentication:
+      success: 'Customer authenticated successfully'
+      failure: 'Customer record not found' 
     income:
       created: 'Income created successfully'
     expenditure:

@@ -5,6 +5,7 @@ Rails.application.routes.draw do
     namespace :v1 do
       namespace :customer do
         post :registration, to: "registration#create"
+        post :authenticate, to: "authentication#create"
       end
 
       resources :customers, only: [] do
