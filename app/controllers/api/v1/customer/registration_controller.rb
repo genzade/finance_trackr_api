@@ -5,6 +5,8 @@ module Api
     module Customer
       class RegistrationController < ApplicationController
 
+        skip_before_action :authenticate_resource!
+
         def create
           form = Forms::CustomerRegistrationForm.new(registration_params)
 

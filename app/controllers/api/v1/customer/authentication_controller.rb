@@ -5,7 +5,7 @@ module Api
     module Customer
       class AuthenticationController < ApplicationController
 
-        # skip_before_action :authenticate_resource!, only: :create
+        skip_before_action :authenticate_resource!, only: :create
 
         rescue_from ActionController::ParameterMissing, with: :handle_parameter_missing
 

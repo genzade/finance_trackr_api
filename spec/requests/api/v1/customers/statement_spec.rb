@@ -4,11 +4,17 @@ require "rails_helper"
 
 RSpec.describe "Api::V1::Customers::Statement", type: :request do
   let(:customer) { create(:customer, :with_statement) }
+  let(:token) do
+    Auths::JsonWebToken.encode(resource_type: "Customer", resource_id: customer.id)
+  end
+  let(:headers) do
+    { "Authorization" => "Bearer #{token}" }
+  end
 
   describe "GET /api/v1/customers/:customer_id/statement" do
     context "when customer has no income or expenditure records" do
       it "returns http ok" do
-        get "/api/v1/customers/#{customer.id}/statement", as: :json
+        get "/api/v1/customers/#{customer.id}/statement", headers: headers
 
         expect(response).to have_http_status(:ok)
         expect(response.parsed_body).to eq(
@@ -29,16 +35,18 @@ RSpec.describe "Api::V1::Customers::Statement", type: :request do
       before do
         post(
           "/api/v1/customers/#{customer.id}/expenditure",
-          params: { expenditure: { category: "mortgage", amount: 500.0 } }
+          params: { expenditure: { category: "mortgage", amount: 500.0 } },
+          headers: headers
         )
         post(
           "/api/v1/customers/#{customer.id}/income",
-          params: { income: { source: "salary", amount: 2800.0 } }
+          params: { income: { source: "salary", amount: 2800.0 } },
+          headers: headers
         )
       end
 
       it "returns http ok", :sidekiq_inline do
-        get "/api/v1/customers/#{customer.id}/statement"
+        get "/api/v1/customers/#{customer.id}/statement", headers: headers
 
         expect(response).to have_http_status(:ok)
         expect(response.parsed_body).to eq(
