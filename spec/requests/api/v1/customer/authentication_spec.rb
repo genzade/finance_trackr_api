@@ -20,18 +20,18 @@ RSpec.describe "Api::V1::Customer::Authentication", type: :request do
         )
 
         expect(response).to have_http_status(:created)
-        expect(response.parsed_body).to eq(
-          {
+        expect(response.parsed_body).to match(
+          a_hash_including(
             "message" => "Customer authenticated successfully",
-            "token" => "123"
-          }
+            "token" => be_an(String)
+          )
         )
       end
     end
 
     context "with invalid parameters" do
       context "when email is blank" do
-        it "returns 422 unprocessable entity", :sidekiq_inline do
+        it "returns 422 unprocessable entity" do
           authenticate_params = {
             customer: {
               password: "123456"
@@ -51,7 +51,7 @@ RSpec.describe "Api::V1::Customer::Authentication", type: :request do
       end
 
       context "when password is blank" do
-        it "returns 422 unprocessable entity", :sidekiq_inline do
+        it "returns 422 unprocessable entity" do
           authenticate_params = {
             customer: {
               email: "name@mail.com"

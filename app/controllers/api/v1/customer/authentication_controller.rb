@@ -5,17 +5,22 @@ module Api
     module Customer
       class AuthenticationController < ApplicationController
 
+        # skip_before_action :authenticate_resource!, only: :create
+
         rescue_from ActionController::ParameterMissing, with: :handle_parameter_missing
 
         def create
-          customer = ::Customer.find_by(email: auth_params.fetch(:email))
-          customer_password = auth_params.fetch(:password)
+          password = auth_params.fetch(:password)
 
-          if customer&.authenticate(customer_password)
+          if customer&.authenticate(password)
+            token = Auths::JsonWebToken.encode(
+              { resource_id: customer.id, resource_type: customer.class.name }
+            )
+
             render(
               json: {
                 message: I18n.t("customer.authentication.success"),
-                token: "123" # TODO: implement something like JWT here instead
+                token: token
               },
               status: :created
             )
@@ -34,6 +39,10 @@ module Api
             json: { errors: error.message },
             status: :unprocessable_entity
           )
+        end
+
+        def customer
+          @customer ||= ::Customer.find_by(email: auth_params.fetch(:email))
         end
 
         def auth_params
