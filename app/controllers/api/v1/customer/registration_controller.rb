@@ -16,10 +16,7 @@ module Api
               status: :created
             )
           else
-            render(
-              json: { errors: form.errors.full_messages },
-              status: :unprocessable_entity
-            )
+            render_error(form.errors.full_messages, :unprocessable_entity)
           end
         end
 

@@ -25,20 +25,14 @@ module Api
               status: :created
             )
           else
-            render(
-              json: { errors: I18n.t("customer.authentication.failure") },
-              status: :unauthorized
-            )
+            render_error(I18n.t("customer.authentication.failure"), :unauthorized)
           end
         end
 
         private
 
         def handle_parameter_missing(error)
-          render(
-            json: { errors: error.message },
-            status: :unprocessable_entity
-          )
+          render_error(error.message, :unprocessable_entity)
         end
 
         def customer
