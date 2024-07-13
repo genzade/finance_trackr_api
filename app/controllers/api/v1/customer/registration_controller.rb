@@ -8,7 +8,7 @@ module Api
         skip_before_action :authenticate_resource!
 
         def create
-          form = Forms::CustomerRegistrationForm.new(registration_params)
+          form = Forms::Customers::RegistrationForm.new(registration_params)
 
           if form.save
             render(

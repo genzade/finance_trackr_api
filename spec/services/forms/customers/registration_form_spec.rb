@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe Forms::CustomerRegistrationForm, type: :form do
+RSpec.describe Forms::Customers::RegistrationForm, type: :form do
   it { is_expected.to validate_presence_of(:email) }
   it { is_expected.to validate_presence_of(:password) }
   it { is_expected.to validate_confirmation_of(:password) }
@@ -10,7 +10,7 @@ RSpec.describe Forms::CustomerRegistrationForm, type: :form do
   describe "#save" do
     context "when the form is valid" do
       it "creates a customer, returns true" do
-        form = Forms::CustomerRegistrationForm.new(
+        form = Forms::Customers::RegistrationForm.new(
           email: "john@doe.com",
           password: "123456",
           password_confirmation: "123456"
@@ -23,7 +23,7 @@ RSpec.describe Forms::CustomerRegistrationForm, type: :form do
       end
 
       it "enqueues a job create statement", :sidekiq_inline do
-        form = Forms::CustomerRegistrationForm.new(
+        form = Forms::Customers::RegistrationForm.new(
           email: "john@doe.com",
           password: "123456",
           password_confirmation: "123456"
@@ -35,7 +35,7 @@ RSpec.describe Forms::CustomerRegistrationForm, type: :form do
 
     context "when the form is invalid" do
       it "returns false" do
-        form = Forms::CustomerRegistrationForm.new(
+        form = Forms::Customers::RegistrationForm.new(
           email: "",
           password: "",
           password_confirmation: ""
