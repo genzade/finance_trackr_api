@@ -1,0 +1,3 @@
+web: bin/rails server
+backend: docker compose up
+sidekiq: bundle exec sidekiq
