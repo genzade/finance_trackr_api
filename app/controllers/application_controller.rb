@@ -3,6 +3,7 @@
 class ApplicationController < ActionController::API
 
   before_action :authenticate_resource!
+  rescue_from ActionDispatch::Http::Parameters::ParseError, with: :invalid_parameters_error
 
   private
 
@@ -22,6 +23,10 @@ class ApplicationController < ActionController::API
     rescue ActiveRecord::RecordNotFound, JWT::DecodeError => e
       render_error(e.message, :unauthorized)
     end
+  end
+
+  def invalid_parameters_error(error)
+    render_error(error.message, :unprocessable_entity)
   end
 
 end
