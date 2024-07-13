@@ -7,9 +7,11 @@ RSpec.describe "Api::V1::Customer::Registration", type: :request do
     context "with valid parameters" do
       let(:customer_params) do
         {
-          email: "name@mail.com",
-          password: "123456",
-          password_confirmation: "123456"
+          registration: {
+            email: "name@mail.com",
+            password: "123456",
+            password_confirmation: "123456"
+          }
         }
       end
 
@@ -44,10 +46,12 @@ RSpec.describe "Api::V1::Customer::Registration", type: :request do
 
     context "with invalid parameters" do
       let(:customer_params) do
-        { email: "", password: "", password_confirmation: "" }
+        {
+          registration: { email: "", password: "", password_confirmation: "" }
+        }
       end
 
-      it "returns 422 unprocessable entity", :sidekiq_inline do
+      it "returns 422 unprocessable entity" do
         post(
           "/api/v1/customer/registration",
           params: customer_params
@@ -55,8 +59,61 @@ RSpec.describe "Api::V1::Customer::Registration", type: :request do
 
         expect(response).to have_http_status(:unprocessable_entity)
         expect(response.parsed_body).to eq(
-          { "errors" => ["Email can't be blank", "Password can't be blank"] }
+          {
+            "errors" => [
+              "Email can't be blank",
+              "Password can't be blank",
+              "Password confirmation can't be blank"
+            ]
+          }
         )
+      end
+
+      context "when password confirmation is missing" do
+        let(:customer_params) do
+          {
+            registration: {
+              email: "name@mail.com",
+              password: "123456"
+            }
+          }
+        end
+
+        it "returns 422 unprocessable entity" do
+          post(
+            "/api/v1/customer/registration",
+            params: customer_params
+          )
+
+          expect(response).to have_http_status(:unprocessable_entity)
+          expect(response.parsed_body).to eq(
+            { "errors" => ["Password confirmation can't be blank"] }
+          )
+        end
+      end
+
+      context "when password confirmation invalid" do
+        let(:customer_params) do
+          {
+            registration: {
+              email: "name@mail.com",
+              password: "123456",
+              password_confirmation: "222222"
+            }
+          }
+        end
+
+        it "returns 422 unprocessable entity" do
+          post(
+            "/api/v1/customer/registration",
+            params: customer_params
+          )
+
+          expect(response).to have_http_status(:unprocessable_entity)
+          expect(response.parsed_body).to eq(
+            { "errors" => ["Password confirmation doesn't match Password"] }
+          )
+        end
       end
     end
   end
