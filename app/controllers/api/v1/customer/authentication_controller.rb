@@ -20,7 +20,10 @@ module Api
             render(
               json: {
                 message: I18n.t("customer.authentication.success"),
-                token: token
+                data: {
+                  customer_id: customer.id,
+                  token: token
+                }
               },
               status: :created
             )

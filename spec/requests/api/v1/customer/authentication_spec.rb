@@ -23,7 +23,10 @@ RSpec.describe "Api::V1::Customer::Authentication", type: :request do
         expect(response.parsed_body).to match(
           a_hash_including(
             "message" => "Customer authenticated successfully",
-            "token" => be_an(String)
+            "data" => a_hash_including(
+              "customer_id" => customer.id,
+              "token" => be_an(String)
+            )
           )
         )
       end
