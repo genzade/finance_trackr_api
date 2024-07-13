@@ -5,6 +5,7 @@ require "rails_helper"
 RSpec.describe Forms::Customers::RegistrationForm, type: :form do
   it { is_expected.to validate_presence_of(:email) }
   it { is_expected.to validate_presence_of(:password) }
+  it { is_expected.to validate_presence_of(:password_confirmation) }
   it { is_expected.to validate_confirmation_of(:password) }
 
   describe "#save" do
