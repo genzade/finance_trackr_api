@@ -65,6 +65,26 @@ RSpec.describe "Api::V1::Customers::Statement", type: :request do
           }
         )
       end
+
+      context "when using an expired token" do
+        it "returns 401 unauthorized" do
+          expired_token = Auths::JsonWebToken.encode(
+            resource_type: "Customer",
+            resource_id: customer.id
+          )
+          travel_to 3.hours.from_now do
+            get(
+              "/api/v1/customers/#{customer.id}/statement",
+              headers: { "Authorization" => "Bearer #{expired_token}" }
+            )
+          end
+
+          expect(response).to have_http_status(:unauthorized)
+          expect(response.parsed_body).to eq(
+            { "errors" => "Signature has expired" }
+          )
+        end
+      end
     end
   end
 end
