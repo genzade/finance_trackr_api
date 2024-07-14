@@ -16,11 +16,11 @@ module Customers
     private
 
     def calculate_disopable_income(customer)
-      Calculators::DisposableIncomeCalculator.new(customer).call
+      Calculators::DisposableIncomeCalculator.call(customer)
     end
 
     def calculate_ie_rating(customer)
-      Calculators::IeRatingCalculator.new(customer).call
+      Calculators::IeRatingCalculator.call(customer)
     end
 
   end
