@@ -10,20 +10,11 @@ module Api
         rescue_from ActionController::ParameterMissing, with: :handle_parameter_missing
 
         def create
-          password = auth_params.fetch(:password)
-
-          if customer&.authenticate(password)
-            token = Auths::JsonWebToken.encode(
-              { resource_id: customer.id, resource_type: customer.class.name }
-            )
-
+          if authenticated_customer
             render(
               json: {
                 message: I18n.t("customer.authentication.success"),
-                data: {
-                  customer_id: customer.id,
-                  token: token
-                }
+                data: authenticated_customer
               },
               status: :created
             )
@@ -38,8 +29,11 @@ module Api
           render_error(error.message, :unprocessable_entity)
         end
 
-        def customer
-          @customer ||= ::Customer.find_by(email: auth_params.fetch(:email))
+        def authenticated_customer
+          @authenticated_customer ||= Auths::CustomerAuthentication.call(
+            email: auth_params.fetch(:email),
+            password: auth_params.fetch(:password)
+          )
         end
 
         def auth_params
