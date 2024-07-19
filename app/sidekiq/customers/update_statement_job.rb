@@ -15,12 +15,26 @@ module Customers
 
     private
 
+    def total_income_amount(customer)
+      customer.incomes.sum(:amount)
+    end
+
+    def total_expenditure_amount(customer)
+      customer.expenditures.sum(:amount)
+    end
+
     def calculate_disopable_income(customer)
-      Calculators::DisposableIncomeCalculator.call(customer)
+      Calculators::DisposableIncomeCalculator.call(
+        total_income: total_income_amount(customer),
+        total_expenditure: total_expenditure_amount(customer)
+      )
     end
 
     def calculate_ie_rating(customer)
-      Calculators::IeRatingCalculator.call(customer)
+      Calculators::IeRatingCalculator.call(
+        total_income: total_income_amount(customer),
+        total_expenditure: total_expenditure_amount(customer)
+      )
     end
 
   end
