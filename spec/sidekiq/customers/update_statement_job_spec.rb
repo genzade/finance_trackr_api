@@ -18,7 +18,7 @@ RSpec.describe Customers::UpdateStatementJob, type: :job do
     stubbed_di_calculator = instance_double(di_calculator_klass, call: 100.0)
 
     allow(di_calculator_klass).to receive(:new)
-      .with(customer)
+      .with(total_income: 0.0, total_expenditure: 0.0)
       .and_return(stubbed_di_calculator)
 
     Customers::UpdateStatementJob.perform_async(customer.id)
@@ -32,7 +32,7 @@ RSpec.describe Customers::UpdateStatementJob, type: :job do
     stubbed_ier_calculator = instance_double(ier_calculator_klass, call: "not_calculated")
 
     allow(ier_calculator_klass).to receive(:new)
-      .with(customer)
+      .with(total_income: 0.0, total_expenditure: 0.0)
       .and_return(stubbed_ier_calculator)
 
     Customers::UpdateStatementJob.perform_async(customer.id)
