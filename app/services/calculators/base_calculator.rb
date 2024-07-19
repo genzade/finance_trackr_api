@@ -7,8 +7,9 @@ module Calculators
       new(...).call
     end
 
-    def initialize(customer)
-      @customer = customer
+    def initialize(total_income:, total_expenditure:)
+      @total_income = total_income
+      @total_expenditure = total_expenditure
     end
 
     def call
@@ -17,20 +18,10 @@ module Calculators
 
     private
 
-    attr_reader :customer
-
-    delegate :incomes, :expenditures, to: :customer
+    attr_reader :total_income, :total_expenditure
 
     def no_income_and_expenditure_records?
-      incomes.empty? && expenditures.empty?
-    end
-
-    def total_income_amount
-      incomes.sum(:amount)
-    end
-
-    def total_expenditure_amount
-      expenditures.sum(:amount)
+      total_income.zero? && total_expenditure.zero?
     end
 
   end

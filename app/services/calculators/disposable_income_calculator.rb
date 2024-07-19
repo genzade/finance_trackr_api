@@ -6,7 +6,7 @@ module Calculators
     def call
       return nil if no_income_and_expenditure_records?
 
-      total_income_amount - total_expenditure_amount
+      total_income - total_expenditure
     end
 
   end
