@@ -14,29 +14,14 @@ RSpec.describe Customers::UpdateStatementJob, type: :job do
 
   it "calculates statement disposable income for the customer", :sidekiq_inline do
     customer = create(:customer, :with_statement)
-    di_calculator_klass = Calculators::DisposableIncomeCalculator
-    stubbed_di_calculator = instance_double(di_calculator_klass, call: 100.0)
-
-    allow(di_calculator_klass).to receive(:new)
-      .with(total_income: 0.0, total_expenditure: 0.0)
-      .and_return(stubbed_di_calculator)
-
-    Customers::UpdateStatementJob.perform_async(customer.id)
-
-    expect(stubbed_di_calculator).to have_received(:call)
-  end
-
-  it "calculates statement ie_rating for the customer", :sidekiq_inline do
-    customer = create(:customer, :with_statement)
-    ier_calculator_klass = Calculators::IeRatingCalculator
-    stubbed_ier_calculator = instance_double(ier_calculator_klass, call: "not_calculated")
-
-    allow(ier_calculator_klass).to receive(:new)
-      .with(total_income: 0.0, total_expenditure: 0.0)
-      .and_return(stubbed_ier_calculator)
+    form_klass = Forms::Customers::UpdateStatementForm
+    stubbed_form = instance_double(form_klass, save: true)
+    allow(form_klass).to receive(:new)
+      .with(statement: customer.statement)
+      .and_return(stubbed_form)
 
     Customers::UpdateStatementJob.perform_async(customer.id)
 
-    expect(stubbed_ier_calculator).to have_received(:call)
+    expect(stubbed_form).to have_received(:save)
   end
 end
