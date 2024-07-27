@@ -50,7 +50,7 @@ module Forms
       end
 
       def update_statement_job
-        ::Customers::UpdateStatementJob.perform_async(customer.id)
+        ::Customers::UpdateStatementJob.perform_async(customer_id)
       end
 
     end
