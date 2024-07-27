@@ -4,37 +4,10 @@ module Customers
   class UpdateStatementJob < BaseJob
 
     def perform(customer_id)
-      customer ||= Customer.find_by(id: customer_id)
-      statement ||= Statement.find_by(customer: customer)
+      statement ||= Statement.find_by(customer_id: customer_id)
 
-      statement.disposable_income_amount = calculate_disopable_income(customer)
-      statement.ie_rating = calculate_ie_rating(customer)
-
-      statement.save
-    end
-
-    private
-
-    def total_income_amount(customer)
-      customer.incomes.sum(:amount)
-    end
-
-    def total_expenditure_amount(customer)
-      customer.expenditures.sum(:amount)
-    end
-
-    def calculate_disopable_income(customer)
-      Calculators::DisposableIncomeCalculator.call(
-        total_income: total_income_amount(customer),
-        total_expenditure: total_expenditure_amount(customer)
-      )
-    end
-
-    def calculate_ie_rating(customer)
-      Calculators::IeRatingCalculator.call(
-        total_income: total_income_amount(customer),
-        total_expenditure: total_expenditure_amount(customer)
-      )
+      update_statement_form = Forms::Customers::UpdateStatementForm.new(statement: statement)
+      update_statement_form.save
     end
 
   end
